@@ -16,7 +16,7 @@ Bun CLI Generator is a command-line tool built in Rust, designed to streamline t
 To install Bun CLI Generator, ensure you have Rust and Cargo installed on your machine. Then run:
 
 ```bash
-cargo install bun_cli
+cargo install bun-cli
 ```
 
 ## Usage ⚒️
@@ -24,7 +24,7 @@ cargo install bun_cli
 After installing, you can create a new Bun project by simply running:
 
 ```bash
-bun_cli new my_project
+bun-cli new my_project
 ```
 This command creates a new directory called my_project with all the necessary files and directories for a Bun project.
 
