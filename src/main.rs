@@ -7,7 +7,7 @@ fn main() {
     let mut project_name = String::new();
     io::stdin()
         .read_line(&mut project_name)
-        .expect("Generic error message that doesn't help you at all xD");
+        .expect("Generic error message that doesn't help you at all 🤣");
 
     let project_name = project_name.trim();
 
