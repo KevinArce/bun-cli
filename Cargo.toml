@@ -10,11 +10,3 @@ homepage = "https://github.com/KevinArce/bun-cli"
 repository = "https://github.com/KevinArce/bun-cli"
 keywords = ["cli", "search", "demo"]
 categories = ["command-line-utilities"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-clap = { version = "4.5.3", features = ["derive"] }
-comfy-table = "7.1.0"
-crossterm = "0.27.0"
-inquire = "0.7.4"
