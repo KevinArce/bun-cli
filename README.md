@@ -24,9 +24,11 @@ cargo install bun-cli
 After installing, you can create a new Bun project by simply running:
 
 ```bash
-bun-cli new my_project
+bun-cli
 ```
-This command creates a new directory called my_project with all the necessary files and directories for a Bun project.
+Then enter a cool name for your project 😎, for example "my-cool-project".
+
+This command creates a new directory called my-cool-project with all the necessary files and directories for a Bun project.
 
 ## Contributing 🤠
 Contributions to Bun CLI Generator are welcome! If you have suggestions for improvements or encounter any issues, please open an issue or submit a pull request on GitHub.
