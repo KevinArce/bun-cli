@@ -47,6 +47,14 @@ fn main() {
                 .expect("Failed to add dependency");
             println!("Added dependency: {}", dep);
         }
+
+        // Display each command in the terminal for debugging purposes
+        let command = format!("xcopy src\\templates\\src {}\\src /s /e /y", project_name);
+        println!("Running command: {}", command);
+        let _ = Command::new("cmd")
+            .args(&["/C", &command])
+            .output()
+            .expect("Failed to copy template");
     } else {
         let error_message = String::from_utf8_lossy(&output.stderr);
         println!("Failed to create project, should I be a designer instead? 🤔🥺: {}", error_message);
