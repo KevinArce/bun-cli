@@ -53,7 +53,7 @@ impl ProjectGenerator {
         // Check for invalid characters (basic validation)
         if name.contains(['/', '\\', '\0']) {
             return Err(BunCliError::InvalidProjectName(
-                format!("Project name '{}' contains invalid characters", name),
+                format!("Project name '{name}' contains invalid characters"),
             ));
         }
 
@@ -61,7 +61,7 @@ impl ProjectGenerator {
     }
 
     /// Check if Bun is installed on the system
-    fn check_bun_installed(&self) -> Result<()> {
+    fn check_bun_installed() -> Result<()> {
         let output = Command::new("bun")
             .arg("--version")
             .output()
@@ -117,8 +117,8 @@ impl ProjectGenerator {
         for dep in &self.config.dependencies {
             // Attempt to install, but continue if one fails
             match self.install_dependency(dep) {
-                Ok(_) => println!("✓ Added dependency: {}", dep),
-                Err(e) => eprintln!("⚠ Warning: {}", e),
+                Ok(()) => println!("✓ Added dependency: {dep}"),
+                Err(e) => eprintln!("⚠ Warning: {e}"),
             }
         }
         Ok(())
@@ -191,12 +191,13 @@ impl ProjectGenerator {
         self.validate_project_name()?;
 
         // Check if Bun is installed
-        self.check_bun_installed()?;
+        Self::check_bun_installed()?;
 
         // Create base project
-        println!("Creating project '{}'...", self.config.name);
+        let project_name = &self.config.name;
+        println!("Creating project '{project_name}'...");
         self.create_base_project()?;
-        println!("✓ Project '{}' created successfully", self.config.name);
+        println!("✓ Project '{project_name}' created successfully");
 
         // Install dependencies
         println!("Installing dependencies...");
@@ -205,8 +206,8 @@ impl ProjectGenerator {
         // Copy templates
         println!("Copying template files...");
         match self.copy_templates() {
-            Ok(_) => println!("✓ Template files copied successfully"),
-            Err(e) => eprintln!("⚠ Warning: {}", e),
+            Ok(()) => println!("✓ Template files copied successfully"),
+            Err(e) => eprintln!("⚠ Warning: {e}"),
         }
 
         Ok(())

@@ -22,7 +22,7 @@ impl Cli {
         generator.generate()?;
 
         println!("\n🥳 All done! Your project is ready to use.");
-        println!("Run 'cd {}' to get started!", project_name);
+        println!("Run 'cd {project_name}' to get started!");
 
         Ok(())
     }
@@ -36,12 +36,12 @@ impl Cli {
 
     /// Display an error message
     pub fn display_error(error: &dyn std::error::Error) {
-        eprintln!("\n❌ Error: {}", error);
+        eprintln!("\n❌ Error: {error}");
         
         // Display the chain of errors if available
         let mut source = error.source();
         while let Some(err) = source {
-            eprintln!("  Caused by: {}", err);
+            eprintln!("  Caused by: {err}");
             source = err.source();
         }
     }
