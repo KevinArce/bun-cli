@@ -163,11 +163,17 @@ impl ProjectGenerator {
                 Self::copy_dir_recursive(&src_path, &dst_path)?;
             } else {
                 // Only copy if destination doesn't exist or is different
-                let should_copy = !dst_path.exists() || {
-                    let src_metadata = std::fs::metadata(&src_path)?;
-                    let dst_metadata = std::fs::metadata(&dst_path)?;
-                    src_metadata.len() != dst_metadata.len()
-                        || src_metadata.modified()? > dst_metadata.modified()?
+                let should_copy = if !dst_path.exists() {
+                    true
+                } else {
+                    // Both src and dst exist, compare metadata
+                    match (std::fs::metadata(&src_path), std::fs::metadata(&dst_path)) {
+                        (Ok(src_metadata), Ok(dst_metadata)) => {
+                            src_metadata.len() != dst_metadata.len()
+                                || src_metadata.modified()? > dst_metadata.modified()?
+                        }
+                        _ => true, // If we can't read metadata, copy to be safe
+                    }
                 };
 
                 if should_copy {
@@ -221,11 +227,11 @@ mod tests {
         
         let result = generator.validate_project_name();
         assert!(result.is_err());
-        if let Err(BunCliError::InvalidProjectName(_)) = result {
-            // Expected error type
-        } else {
-            panic!("Expected InvalidProjectName error");
-        }
+        assert!(
+            matches!(result, Err(BunCliError::InvalidProjectName(_))),
+            "Expected InvalidProjectName error, got: {:?}",
+            result
+        );
     }
 
     #[test]
