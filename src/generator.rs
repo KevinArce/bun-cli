@@ -61,7 +61,7 @@ impl ProjectGenerator {
     }
 
     /// Check if Bun is installed on the system
-    fn check_bun_installed() -> Result<()> {
+    pub fn check_bun_installed() -> Result<()> {
         let output = Command::new("bun")
             .arg("--version")
             .output()
@@ -71,6 +71,33 @@ impl ProjectGenerator {
             return Err(BunCliError::BunNotInstalled);
         }
 
+        Ok(())
+    }
+
+    /// Install Bun using the official install script
+    pub fn install_bun() -> Result<()> {
+        println!("Installing Bun...");
+        
+        let install_cmd = "curl -fsSL https://bun.sh/install | bash";
+        
+        let output = Command::new("sh")
+            .arg("-c")
+            .arg(install_cmd)
+            .output()
+            .map_err(|e| BunCliError::CommandFailed {
+                command: "install_bun".to_string(),
+                message: e.to_string(),
+            })?;
+
+        if !output.status.success() {
+            let error_message = String::from_utf8_lossy(&output.stderr);
+            return Err(BunCliError::CommandFailed {
+                command: "install_bun".to_string(),
+                message: error_message.to_string(),
+            });
+        }
+
+        println!("✓ Bun installed successfully");
         Ok(())
     }
 
